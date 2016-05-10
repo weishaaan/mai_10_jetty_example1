@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<project name="First" default="archive">
+    
+    <property name="name" value="first"/>
+    <property name="dist.dir" location="dist"/>
+    <property name="web.dir" location="src/web"/>
+    <property name="jetty.base" location="/Users/LizSHAN/MORA/jetty-9.3.8/my-base"/>
+    <property name="deploy.path" location="${jetty.base}/webapps"/>
+      
+    <target name="init">
+        <mkdir dir="${dist.dir}"/>
+    </target>    
+       
+    <target name="archive" depends="init">
+        <war destfile="${dist.dir}/${name}.war" needxmlfile="false">
+            <fileset dir="${web.dir}"/>
+        </war>
+        <echo>Archive created</echo>
+    </target> 
+    
+    <target name="deploy" depends="archive">
+        <copy file="${dist.dir}/${name}.war" overwrite="true" 
+              todir="${deploy.path}"/>
+        <echo>Archive deployed</echo>
+    </target>        
+    
+    <target name="clean" depends="init">
+        <delete dir="${dist.dir}"/>
+        <echo>Cleaning completed</echo>
+    </target>  
+    
+</project>
